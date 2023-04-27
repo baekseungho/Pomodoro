@@ -45,6 +45,15 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+  void onStopPressed() {
+    timer.cancel();
+    setState(() {
+      isRunning = false;
+      totalSeconds = twemtFiveMinutes;
+      totalPomodoros = 0;
+    });
+  }
+
   String format(int seconds) {
     var duration = Duration(seconds: seconds);
 
@@ -73,15 +82,29 @@ class _HomeScreenState extends State<HomeScreen> {
           Flexible(
             flex: 3,
             child: Center(
-              child: IconButton(
-                  iconSize: 98,
-                  color: Theme.of(context).cardColor,
-                  onPressed: () {
-                    isRunning ? onPausePressed() : onStartPressed();
-                  },
-                  icon: Icon(isRunning
-                      ? Icons.pause_circle_outline
-                      : Icons.play_circle_fill_outlined)),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  IconButton(
+                    iconSize: 98,
+                    color: Theme.of(context).cardColor,
+                    onPressed: () {
+                      isRunning ? onPausePressed() : onStartPressed();
+                    },
+                    icon: Icon(isRunning
+                        ? Icons.pause_circle_outline
+                        : Icons.play_circle_fill_outlined),
+                  ),
+                  IconButton(
+                    iconSize: 98,
+                    color: Theme.of(context).cardColor,
+                    onPressed: () {
+                      onStopPressed();
+                    },
+                    icon: const Icon(Icons.stop_circle_outlined),
+                  ),
+                ],
+              ),
             ),
           ),
           Flexible(
@@ -92,7 +115,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Container(
                     decoration: BoxDecoration(
                         color: Theme.of(context).cardColor,
-                        borderRadius: BorderRadius.circular(50)),
+                        borderRadius: BorderRadius.circular(20)),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
